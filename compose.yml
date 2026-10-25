@@ -1,0 +1,30 @@
+services:
+  database:
+    image: postgres:16.9
+    container_name: postgres_db
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+    networks:
+      - docker_demo
+  
+  pgadmin:
+    image: dpage/pgadmin4:9
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - database
+    networks:
+      - docker_demo
+
+volumes:
+  postgres_data:
+networks:
+  docker_demo:
